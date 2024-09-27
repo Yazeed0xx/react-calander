@@ -1,7 +1,5 @@
-// import mongoose, { Schema, models } from "mongoose";
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema();
-const models = mongoose.models();
+const Schema = mongoose.Schema;
 
 const informationSchema = new Schema({
   person: {
@@ -26,4 +24,6 @@ const informationSchema = new Schema({
   },
 });
 
-export const info = mongoose.model("info", informationSchema);
+const info = mongoose.models.info || mongoose.model("info", informationSchema);
+
+module.exports = info;

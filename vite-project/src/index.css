@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.rbc-header {
+  background: #d4e6e8;
+  color: black;
+  padding: 10px;
+  font-size: 12px;
+}
+
+/* .rbc-toolbar-label {
+  background-color: #d4e6e8;
+} */
+
+.rbc-background-event {
+  padding: 0px !important;
+  border-radius: 0px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* .rbc-time-slot {
+  background-color: #eaf3fa;
+  color: #74a4c3;
+  border-color: aqua !important;
+} */
+
+.rbc-event-label {
+  display: none !important;
+}
