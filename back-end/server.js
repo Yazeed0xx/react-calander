@@ -10,12 +10,12 @@ const infoRoutes = require("./routes/events");
 const path = require("path");
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "vite-project/build")));
+// app.use(express.static(path.join(__dirname, "vite-project/build")));
 
-// Handle any requests that don't match the ones above
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/vite-project/build/index.html"));
-});
+// // Handle any requests that don't match the ones above
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/vite-project/build/index.html"));
+// });
 
 mongoose
   .connect(
