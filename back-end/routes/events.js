@@ -20,5 +20,19 @@ router.get("/info", async (req, res) => {
     res.status(500).json({ error: "Erroق", details: error });
   }
 });
+router.delete("/info/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedInfo = await info.findByIdAndDelete(id);
+
+    if (!deletedInfo) {
+      return res.status(404).json({ message: "Info not found" });
+    }
+
+    res.status(200).json({ message: "Info deleted successfully", deletedInfo });
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting info", details: error });
+  }
+});
 
 module.exports = router;

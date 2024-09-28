@@ -1,11 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .rbc-header {
   background: #d4e6e8;
   color: black;
   padding: 10px;
   font-size: 12px;
+}
+body {
+  font-family: Arial;
 }
 
 /* .rbc-toolbar-label {

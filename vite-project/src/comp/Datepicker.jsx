@@ -4,6 +4,7 @@ import globalize from "globalize";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import axios from "axios";
+import Modal from "./Model";
 
 const localizer = globalizeLocalizer(globalize);
 
@@ -16,6 +17,8 @@ export default function Datepicker() {
     start: new Date(),
     end: new Date(),
   });
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchEvents();
@@ -31,6 +34,7 @@ export default function Datepicker() {
         start: new Date(event.start),
         end: new Date(event.end),
         allDay: false,
+        _id: event._id,
       }));
       setEvents(formattedEvents);
     } catch (error) {
@@ -60,6 +64,7 @@ export default function Datepicker() {
         start: new Date(response.data.start),
         end: new Date(response.data.end),
         allDay: false,
+        _id: response.data._id,
       };
 
       setEvents((prevEvents) => [...prevEvents, formattedEvent]);
@@ -75,54 +80,62 @@ export default function Datepicker() {
     }
   };
 
-  const Event = ({ event }) => (
-    <div className="w-auto h-auto">
-      <strong>المنظم: {event.person}</strong> <p>المدعوين: {event.second}</p>
-      <strong>العنوان : {event.title}</strong>
-    </div>
-  );
+  const handleDelete = async (eventId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/info/${eventId}`);
+      setEvents(events.filter((event) => event._id !== eventId));
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
+  };
+
+  const handleEventSelect = (event) => {
+    setSelectedEvent(event);
+    setShowModal(true);
+  };
 
   return (
-    <div className="p-4   bg-[#D4E6E8] ">
-      <h1 className="text-xl text-center font-bold mb-4">
+    <div className="p-4 bg-[#D4E6E8]">
+      <h1 className="text-xl text-center w-full font-bold ">
         جدول اجتماعات اعضاء تهيئه
       </h1>
 
-      <form className="mb-4 flex    " onSubmit={handleSubmit}>
-        <div className="mb-2 ">
+      <form className="mb-4 flex gap-3 max-md:w-20" onSubmit={handleSubmit}>
+        <div>
           <label>منظم الاجتماع</label>
           <input
             type="text"
             name="person"
             value={newEvent.person}
             onChange={handleInputChange}
-            className="border p-2"
+            className="border p-2 w-full"
             required
           />
         </div>
-        <div className="mb-2">
+        <div>
           <label>المدعوون:</label>
           <input
             type="text"
             name="second"
             value={newEvent.second}
             onChange={handleInputChange}
-            className="border p-2"
+            className="border p-2 w-full"
             required
           />
         </div>
-        <div className="mb-2">
+        <div>
           <label>عنوان الاجتماع</label>
           <input
             type="text"
             name="title"
             value={newEvent.title}
             onChange={handleInputChange}
-            className="border p-2"
+            className="border p-2 w-full"
             required
           />
         </div>
-        <div className="mb-2">
+        <div>
           <label>بداية الاجتماع</label>
           <input
             type="datetime-local"
@@ -131,11 +144,11 @@ export default function Datepicker() {
             onChange={(e) =>
               setNewEvent({ ...newEvent, start: new Date(e.target.value) })
             }
-            className="border p-2"
+            className="border p-2 w-full"
             required
           />
         </div>
-        <div className="mb-2">
+        <div>
           <label>نهاية الاجتماع</label>
           <input
             type="datetime-local"
@@ -144,13 +157,13 @@ export default function Datepicker() {
             onChange={(e) =>
               setNewEvent({ ...newEvent, end: new Date(e.target.value) })
             }
-            className="border p-2"
+            className="border p-2 w-full"
             required
           />
         </div>
         <button
           type="submit"
-          className="bg-[#40A37F] mt-5 ml-36 flex items-center justify-center h-12 w-32 px-4 py-2 rounded-lg text-white font-semibold shadow-lg hover:bg-[#368C6B] transition-all duration-300 ease-in-out hover:shadow-xl active:scale-95"
+          className="bg-[#40A37F] mt-5 h-12 w-36 px-4 py-2 rounded-lg text-white font-semibold shadow-lg hover:bg-[#368C6B] transition-all duration-300 ease-in-out hover:shadow-xl active:scale-95"
         >
           Add Event
         </button>
@@ -158,24 +171,22 @@ export default function Datepicker() {
 
       <div className="mb-4">
         <Calendar
-          events={events.map((event) => ({
-            person: event.person,
-            second: event.second,
-            title: event.title,
-            start: event.start,
-            end: event.end,
-          }))}
+          events={events}
           step={30}
           timeslots={2}
           localizer={localizer}
           popup
-          showAllEvents={true}
           style={{ height: "100vh", backgroundColor: "white" }}
-          components={{
-            event: Event,
-          }}
+          onSelectEvent={handleEventSelect}
         />
       </div>
+
+      <Modal
+        show={showModal}
+        event={selectedEvent}
+        onClose={() => setShowModal(false)}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
