@@ -5,7 +5,7 @@
   "scripts": {
     "backend": "nodemon back-end/server.js",
     "install-server": "cd back-end && npm install",
-    "start-server": "cd  back-end  && node index.js",
+    "start-server": "cd  back-end  && node server.js",
     "install-client": "cd vite-project && npm install",
     "build-client": "cd vite-project && npm run build",
     "start-client": "cd vite-project && npm run start"
