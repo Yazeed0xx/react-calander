@@ -4,11 +4,11 @@
   "main": "index.js",
   "scripts": {
     "backend": "nodemon back-end/server.js",
-    "install-server": "cd Server && npm install",
-    "start-server": "cd Server && node index.js",
-    "install-client": "cd client && npm install",
-    "build-client": "cd client && npm run build",
-    "start-client": "cd client && npm run start"
+    "install-server": "cd back-end && npm install",
+    "start-server": "cd  back-end  && node index.js",
+    "install-client": "cd vite-project && npm install",
+    "build-client": "cd vite-project && npm run build",
+    "start-client": "cd vite-project && npm run start"
   },
   "keywords": [],
   "author": "",
