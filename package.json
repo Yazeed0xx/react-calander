@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "backend": "nodemon back-end/server.js"
+    "dev": "vite",                 
+    "build": "vite build",         
+    "start": "node server.js",     
+    "serve": "vite preview"      
   },
   "keywords": [],
   "author": "",
