@@ -6,6 +6,7 @@ import moment from "moment";
 import axios from "axios";
 import FormModal from "./Eventmodal";
 import Modal from "./Model"; // For event deletion
+import EventWithTime from "./EventWithTime"; // Import the custom event component
 
 const localizer = globalizeLocalizer(globalize);
 
@@ -53,7 +54,6 @@ export default function Datepicker() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
       const response = await axios.post(
         "http://localhost:5000/api/info",
@@ -109,6 +109,9 @@ export default function Datepicker() {
           popup
           style={{ height: "100vh", backgroundColor: "white" }}
           onSelectEvent={handleEventSelect}
+          components={{
+            event: EventWithTime, // Use custom event component
+          }}
         />
       </div>
 

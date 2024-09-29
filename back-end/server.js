@@ -17,6 +17,12 @@ const path = require("path");
 //   res.sendFile(path.join(__dirname + "/vite-project/build/index.html"));
 // });
 
+app.use(express.static(path.join(__dirname, "vite-project", "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "vite-project", "dist", "index.html"));
+});
+
 mongoose
   .connect(
     "mongodb+srv://yazeedthunyan:4Iu4fKvJpprQSYxn@cluster0.b9xpn.mongodb.net/",
